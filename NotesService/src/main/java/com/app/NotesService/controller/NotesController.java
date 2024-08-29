@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -18,10 +19,16 @@ public class NotesController {
     private NotesService notesService;
 
     @PostMapping
-    public ResponseEntity<Note> save(@RequestBody Note note){
+    public ResponseEntity<Note> save(@RequestBody Note note) {
 
-        Note createdNote = notesService.save(note);
+        Note createdNote;
 
-        return new ResponseEntity<Note>(createdNote, HttpStatus.CREATED);
+        try{
+            createdNote = notesService.save(note);
+        }
+        catch (IllegalArgumentException exception){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
+        }
+        return new ResponseEntity<Note>( createdNote, HttpStatus.CREATED);
     }
 }
