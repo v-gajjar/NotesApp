@@ -80,6 +80,7 @@ public class NotesControllerTest {
                 .andDo(print())
                 .andReturn();
 
+        // assert
         MockHttpServletResponse response = result.getResponse();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
