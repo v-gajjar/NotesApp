@@ -1,5 +1,6 @@
 package com.app.NotesService.controller;
 
+import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,7 +66,7 @@ public class NotesControllerTest {
     public void Save_NoteWithNullContent_ThrowsError() throws Exception{
         // arrange
         Note noteToCreate = new Note(null, "Sample Note", null);
-        IllegalArgumentException exception = new IllegalArgumentException("Note cannot have empty content");
+        EmptyContentException exception = new EmptyContentException("Note cannot have empty content");
 
         when(notesService.save(any(Note.class))).thenThrow(exception);
 
