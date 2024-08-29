@@ -1,5 +1,6 @@
 package com.app.NotesService.controller;
 
+import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class NotesController {
         try{
             createdNote = notesService.save(note);
         }
-        catch (IllegalArgumentException exception){
+        catch (EmptyContentException exception){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
         }
         return new ResponseEntity<Note>( createdNote, HttpStatus.CREATED);
