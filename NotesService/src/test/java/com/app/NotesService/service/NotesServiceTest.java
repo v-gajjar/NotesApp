@@ -23,13 +23,16 @@ public class NotesServiceTest {
 
     @Test
     public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
+        // arrange
         Note noteToSave = new Note(null, "Sample Note", "Java > JavaScript > C#");
         Note savedNote = new Note(2L,"Sample Note", "Java > JavaScript > c#" );
 
         when(notesRepository.save(noteToSave)).thenReturn(savedNote);
 
+        // act
         Note result = notesService.save(noteToSave);
 
+        // assert
         assertNotNull(result);
         assertEquals(savedNote.getId(), result.getId());
     }
