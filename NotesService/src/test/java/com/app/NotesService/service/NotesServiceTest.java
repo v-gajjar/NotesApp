@@ -50,4 +50,15 @@ public class NotesServiceTest {
 
         verify(notesRepository, never()).save(any(Note.class));
     }
+
+    @Test
+    public void Save_NoteWithNullContent_ThrowsError(){
+        Note noteToSave = new Note(null, "Sample Note", null);
+
+        Assertions.assertThrows(EmptyContentException.class, () -> {
+            notesService.save(noteToSave);
+        });
+
+        verify(notesRepository, never()).save(any(Note.class));
+    }
 }
