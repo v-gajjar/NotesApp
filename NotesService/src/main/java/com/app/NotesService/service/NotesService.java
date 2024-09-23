@@ -15,7 +15,7 @@ public class NotesService {
     public Note save(Note note){
         String content = note.getContent();
 
-        if ( content.trim().isEmpty() ){
+        if ( content == null || content.trim().isEmpty() ){
             throw new EmptyContentException("Note cannot have empty content");
         }
 
