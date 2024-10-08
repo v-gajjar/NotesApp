@@ -20,6 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,5 +84,27 @@ public class NotesControllerTest {
         // assert
         MockHttpServletResponse response = result.getResponse();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+    }
+
+    @Test
+    public void Find_NoteByExistingID_ReturnsASingleNote() throws Exception{
+        //arrange
+        Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+
+        when(notesService.findNoteById(any(Long.class))).thenReturn(existingNote);
+
+        // act
+        MvcResult result = mockMvc.perform(get("/api/notes/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        String responseContent = result.getResponse().getContentAsString();
+        Note foundNote = objectMapper.readValue(responseContent, Note.class);
+
+        assertThat(responseContent).isNotEmpty();
+        assertThat(foundNote).isEqualTo(existingNote);
     }
 }

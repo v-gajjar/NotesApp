@@ -21,4 +21,8 @@ public class NotesService {
 
         return notesRepository.save(note);
     }
+
+    public Note findNoteById(Long noteID){
+        return new Note(1L, "Sample Note", "Hello, World!");
+    }
 }
