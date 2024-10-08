@@ -5,7 +5,9 @@ import com.app.NotesService.repository.NotesRepository;
 import com.app.NotesService.service.NotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -20,6 +22,7 @@ import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "/application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NotesControllerIntegrationTest {
 
     @LocalServerPort
@@ -37,11 +40,17 @@ public class NotesControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String baseURL;
+
+    @BeforeAll
+    public void setUp(){
+        baseURL = "http://localhost:" + port + "/api/notes";
+    }
+
     @Test
     @Sql(statements = "DELETE FROM note;", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
         // arrange
-        String baseURL = "http://localhost:" + port + "/api/notes";
         URI uri = new URI(baseURL);
 
         Note note = new Note(null, "I love testing!", "I LOVE writing Integration Tests!");
@@ -65,7 +74,6 @@ public class NotesControllerIntegrationTest {
     @Sql(statements = "DELETE FROM note;", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void Save_NoteWithContentButWithoutTitle_ReturnsNoteWithAddedId() throws Exception{
         // arrange
-        String baseURL = "http://localhost:" + port + "/api/notes";
         URI uri = new URI(baseURL);
 
         Note note = new Note(null, null, "I enjoy a mug of Java!");
@@ -88,7 +96,6 @@ public class NotesControllerIntegrationTest {
     @Test
     public void Save_NoteWithNullContent_ThrowsError() throws Exception {
         // arrange
-        String baseURL = "http://localhost:" + port + "/api/notes";
         URI uri = new URI(baseURL);
 
         Note note = new Note(null, "I love testing!", null);
@@ -108,7 +115,6 @@ public class NotesControllerIntegrationTest {
     @Test
     public void Save_NoteWithEmptyContent_ThrowsError() throws Exception {
         // arrange
-        String baseURL = "http://localhost:" + port + "/api/notes";
         URI uri = new URI(baseURL);
 
         Note note = new Note(null, "I love testing!", "");
