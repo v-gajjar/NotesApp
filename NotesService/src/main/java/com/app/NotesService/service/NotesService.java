@@ -23,6 +23,7 @@ public class NotesService {
     }
 
     public Note findNoteById(Long noteID){
-        return new Note(1L, "Sample Note", "Hello, World!");
+
+        return notesRepository.findById(noteID).orElse(null);
     }
 }
