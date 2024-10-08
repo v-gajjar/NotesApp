@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,7 +27,7 @@ public class NotesServiceTest {
     private NotesService notesService;
 
     @Test
-    public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
+    public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() {
         // arrange
         Note noteToSave = new Note(null, "Sample Note", "Java > JavaScript > C#");
         Note savedNote = new Note(2L,"Sample Note", "Java > JavaScript > C#" );
@@ -60,5 +62,22 @@ public class NotesServiceTest {
         });
 
         verify(notesRepository, never()).save(any(Note.class));
+    }
+
+    @Test
+    public void Find_ExistingNoteID_ReturnsASingleNote() {
+        // arrange
+        Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+
+        when(notesRepository.findById(1L)).thenReturn(Optional.of(existingNote));
+
+        // act
+        Note foundNote =  notesService.findNoteById(1L);
+
+        // assert
+        assertNotNull(foundNote);
+        assertEquals(existingNote.getId(), foundNote.getId());
+        assertEquals(existingNote.getTitle(), foundNote.getTitle());
+        assertEquals(existingNote.getContent(), foundNote.getContent());
     }
 }
