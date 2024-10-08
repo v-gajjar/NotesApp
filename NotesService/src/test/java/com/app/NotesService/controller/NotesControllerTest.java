@@ -87,14 +87,15 @@ public class NotesControllerTest {
     }
 
     @Test
-    public void Find_NoteByExistingID_ReturnsASingleNote() throws Exception{
+    public void Find_ExistingNoteID_ReturnsASingleNote() throws Exception{
         //arrange
         Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+        String existingNoteJSON = objectMapper.writeValueAsString(existingNote);
 
         when(notesService.findNoteById(any(Long.class))).thenReturn(existingNote);
 
         // act
-        MvcResult result = mockMvc.perform(get("/api/notes/1")
+        MvcResult result = mockMvc.perform(get("/api/notes/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -102,9 +103,8 @@ public class NotesControllerTest {
 
         // assert
         String responseContent = result.getResponse().getContentAsString();
-        Note foundNote = objectMapper.readValue(responseContent, Note.class);
 
         assertThat(responseContent).isNotEmpty();
-        assertThat(foundNote).isEqualTo(existingNote);
+        assertThat(existingNoteJSON).isEqualTo(responseContent);
     }
 }
