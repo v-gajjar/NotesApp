@@ -39,18 +39,11 @@ public class NotesControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private String baseURL;
-
-    @BeforeAll
-    public void setUp(){
-        baseURL = "http://localhost:" + port + "/api/notes";
-    }
-
     @Test
     @Order(1)
     public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
         // arrange
-        URI uri = new URI(baseURL);
+        URI uri = new URI("http://localhost:" + port + "/api/notes");
 
         Note note = new Note(null, "I love testing!", "I LOVE writing Integration Tests!");
 
@@ -73,7 +66,7 @@ public class NotesControllerIntegrationTest {
     @Order(2)
     public void Save_NoteWithContentButWithoutTitle_ReturnsNoteWithAddedId() throws Exception{
         // arrange
-        URI uri = new URI(baseURL);
+        URI uri = new URI("http://localhost:" + port + "/api/notes");
 
         Note note = new Note(null, null, "I enjoy a mug of Java!");
 
@@ -96,7 +89,7 @@ public class NotesControllerIntegrationTest {
     @Order(3)
     public void Save_NoteWithNullContent_ThrowsError() throws Exception {
         // arrange
-        URI uri = new URI(baseURL);
+        URI uri = new URI("http://localhost:" + port + "/api/notes");
 
         Note note = new Note(null, "I love testing!", null);
 
@@ -116,7 +109,7 @@ public class NotesControllerIntegrationTest {
     @Order(4)
     public void Save_NoteWithEmptyContent_ThrowsError() throws Exception {
         // arrange
-        URI uri = new URI(baseURL);
+        URI uri = new URI("http://localhost:" + port + "/api/notes");
 
         Note note = new Note(null, "I love testing!", "");
 
@@ -135,8 +128,8 @@ public class NotesControllerIntegrationTest {
     @Test
     @Order(5)
     public void Find_ExistingNoteID_ReturnsASingleNote() throws Exception{
-        String url = baseURL.concat("/1");
-        URI uri = new URI(url);
+        // arrange
+        URI uri = new URI("http://localhost:" + port + "/api/notes/1");
 
         Note note = new Note(1L, "I love testing!", "I LOVE writing Integration Tests!");
         String noteJson = objectMapper.writeValueAsString(note);
