@@ -4,10 +4,7 @@ import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import com.app.NotesService.service.NotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,7 +19,9 @@ import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "/application-test.properties")
+@Sql(scripts = {"/scripts/pre-test-setup.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class NotesControllerIntegrationTest {
 
     @LocalServerPort
@@ -48,7 +47,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Sql(statements = "DELETE FROM note;", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Order(1)
     public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
         // arrange
         URI uri = new URI(baseURL);
@@ -71,7 +70,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Sql(statements = "DELETE FROM note;", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Order(2)
     public void Save_NoteWithContentButWithoutTitle_ReturnsNoteWithAddedId() throws Exception{
         // arrange
         URI uri = new URI(baseURL);
@@ -94,6 +93,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
+    @Order(3)
     public void Save_NoteWithNullContent_ThrowsError() throws Exception {
         // arrange
         URI uri = new URI(baseURL);
@@ -113,6 +113,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
+    @Order(4)
     public void Save_NoteWithEmptyContent_ThrowsError() throws Exception {
         // arrange
         URI uri = new URI(baseURL);
