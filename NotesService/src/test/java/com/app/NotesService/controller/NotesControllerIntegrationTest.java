@@ -131,4 +131,25 @@ public class NotesControllerIntegrationTest {
         // assert
         Assertions.assertEquals(400, result.getStatusCode().value());
     }
+
+    @Test
+    @Order(5)
+    public void Find_ExistingNoteID_ReturnsASingleNote() throws Exception{
+        String url = baseURL.concat("/1");
+        URI uri = new URI(url);
+
+        Note note = new Note(1L, "I love testing!", "I LOVE writing Integration Tests!");
+        String noteJson = objectMapper.writeValueAsString(note);
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
+
+        String responseContent = result.getBody();
+        Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
+
+        // assert
+        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertNotNull(returnedNote.getId());
+        Assertions.assertEquals(noteJson, responseContent);
+    }
 }
