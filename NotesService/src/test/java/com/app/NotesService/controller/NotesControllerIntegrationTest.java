@@ -145,4 +145,18 @@ public class NotesControllerIntegrationTest {
         Assertions.assertNotNull(returnedNote.getId());
         Assertions.assertEquals(noteJson, responseContent);
     }
+
+    @Test
+    @Order(6)
+    public void Find_IDWithoutRowInDatabase_ThrowsError() throws Exception{
+        // arrange
+        long id = 32L;
+        URI uri = new URI("http://localhost:" + port + "/api/notes/" + id);
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
+
+        // assert
+        Assertions.assertEquals(404, result.getStatusCode().value());
+    }
 }
