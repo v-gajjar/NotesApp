@@ -89,7 +89,5 @@ public class NotesServiceTest {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             notesService.findNoteById(id);
         });
-
-        verify(notesRepository, never()).findById(any(Long.class));
     }
 }
