@@ -1,6 +1,7 @@
 package com.app.NotesService.controller;
 
 import com.app.NotesService.exception.EmptyContentException;
+import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -106,5 +107,26 @@ public class NotesControllerTest {
 
         assertThat(responseContent).isNotEmpty();
         assertThat(existingNoteJSON).isEqualTo(responseContent);
+    }
+
+    @Test
+    public void Find_IDWithoutRowInDatabase_ThrowsError() throws Exception{
+        //arrange
+        long id = 32L;
+
+        ResourceNotFoundException exception = new
+                ResourceNotFoundException("No entry found in database for note with id: " + id);
+        when(notesService.findNoteById(any(Long.class))).thenThrow(exception);
+
+        // act
+        MvcResult result = mockMvc.perform(get("/api/notes/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     }
 }
