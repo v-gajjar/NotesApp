@@ -1,6 +1,7 @@
 package com.app.NotesService.service;
 
 import com.app.NotesService.exception.EmptyContentException;
+import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import org.junit.jupiter.api.Assertions;
@@ -79,5 +80,16 @@ public class NotesServiceTest {
         assertEquals(existingNote.getId(), foundNote.getId());
         assertEquals(existingNote.getTitle(), foundNote.getTitle());
         assertEquals(existingNote.getContent(), foundNote.getContent());
+    }
+
+    @Test
+    public void Find_IDWithoutRowInDatabase_ThrowsError(){
+        long id = 32L;
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            notesService.findNoteById(id);
+        });
+
+        verify(notesRepository, never()).findById(any(Long.class));
     }
 }
