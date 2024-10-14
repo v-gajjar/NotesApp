@@ -10,8 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -50,5 +49,12 @@ public class NotesRepositoryTest {
         assertEquals(note.getId(), foundNote.getId());
         assertEquals(note.getTitle(), foundNote.getTitle());
         assertEquals(note.getContent(), foundNote.getContent());
+    }
+
+    @Test
+    public void Find_IDWithoutRowInDatabase_ThrowsError(){
+        Note note = notesRepository.findById(32L).orElse(null);
+
+        assertNull(note);
     }
 }
