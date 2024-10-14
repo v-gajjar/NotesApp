@@ -1,12 +1,14 @@
 package com.app.NotesService.controller;
 
 import com.app.NotesService.exception.EmptyContentException;
+import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -31,10 +33,17 @@ public class NotesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Note> find(@PathVariable Long id){
-        Note foundNote = notesService.findNoteById(id);
+    public ResponseEntity<Note> findNoteById(@PathVariable Long id){
 
-        return new ResponseEntity<>( foundNote, HttpStatus.OK);
+        Note note;
+
+        try{
+            note = notesService.findNoteById(id);
+        }
+        catch(ResourceNotFoundException exception){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
+        }
+        return new ResponseEntity<Note>( note, HttpStatus.OK);
     }
 }
 
