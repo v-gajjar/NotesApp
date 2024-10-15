@@ -4,6 +4,7 @@ import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -128,5 +131,28 @@ public class NotesControllerTest {
         // assert
         MockHttpServletResponse response = result.getResponse();
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+    }
+
+    @Test
+    public void Find_IDWithNonNumericalValue_ThrowsError() throws Exception{
+        // arrange
+        String id="abc";
+
+        // act
+        MvcResult result = mockMvc.perform(get("/api/notes/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        MockHttpServletResponse response = result.getResponse();
+
+        String content = response.getContentAsString();
+        Map<String, String> error = objectMapper.readValue(content, new TypeReference<Map<String, String>>() {});
+
+        String message = error.get("message");
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 }
