@@ -1,10 +1,10 @@
 package com.app.NotesService.controller;
 
+import com.app.NotesService.exception.ApiExceptionDetails;
 import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -149,9 +147,9 @@ public class NotesControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         String content = response.getContentAsString();
-        Map<String, String> error = objectMapper.readValue(content, new TypeReference<Map<String, String>>() {});
+        ApiExceptionDetails error = objectMapper.readValue(content, ApiExceptionDetails.class );
 
-        String message = error.get("message");
+        String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
