@@ -1,5 +1,6 @@
 package com.app.NotesService.controller;
 
+import com.app.NotesService.exception.ApiExceptionDetails;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import com.app.NotesService.service.NotesService;
@@ -11,11 +12,15 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.net.URI;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "/application-test.properties")
@@ -158,5 +163,26 @@ public class NotesControllerIntegrationTest {
 
         // assert
         Assertions.assertEquals(404, result.getStatusCode().value());
+    }
+
+    @Test
+    @Order(6)
+    public void Find_IDWithNonNumericalValue_ThrowsError() throws Exception{
+        // arrange
+        String id="abc";
+        URI uri = new URI("http://localhost:" + port + "/api/notes/" + id);
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
+
+        ApiExceptionDetails error = objectMapper.readValue(result.getBody(), ApiExceptionDetails.class );
+
+        String message = error.getMessage();
+
+        // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
+        assertTrue(message.startsWith("Incorrect data type provided for id"));
+
+        Assertions.assertEquals(400, result.getStatusCode().value());
     }
 }
