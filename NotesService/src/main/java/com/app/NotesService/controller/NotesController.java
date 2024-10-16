@@ -52,9 +52,9 @@ public class NotesController {
     public ResponseEntity<ApiExceptionDetails> handleException(MethodArgumentTypeMismatchException exception) {
         ApiExceptionDetails errorResponse = new ApiExceptionDetails();
 
-        String name = exception.getName();
+        String argumentName = exception.getName();
 
-        String message = "Incorrect data type provided for " + name;
+        String message = "Incorrect data type provided for " + argumentName;
         int statusCode = HttpStatus.BAD_REQUEST.value();
 
         errorResponse.setMessage(message);
