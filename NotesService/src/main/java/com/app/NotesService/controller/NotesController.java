@@ -53,8 +53,9 @@ public class NotesController {
         ApiExceptionDetails errorResponse = new ApiExceptionDetails();
 
         String argumentName = exception.getName();
+        String type = exception.getRequiredType().getSimpleName();
 
-        String message = "Incorrect data type provided for " + argumentName;
+        String message = "Incorrect data type provided for " + argumentName + ". It should be of type: " + type;
         int statusCode = HttpStatus.BAD_REQUEST.value();
 
         errorResponse.setMessage(message);
