@@ -5,6 +5,8 @@ import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.ResourceNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class NotesController {
     @Autowired
     private NotesService notesService;
 
+    private final Logger logger = LoggerFactory.getLogger(NotesController.class);
+
     @PostMapping
     public ResponseEntity<Note> save(@RequestBody Note note) {
 
@@ -28,6 +32,7 @@ public class NotesController {
             createdNote = notesService.save(note);
         }
         catch (EmptyContentException exception){
+            logger.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
         }
         return new ResponseEntity<Note>( createdNote, HttpStatus.CREATED);
@@ -42,6 +47,7 @@ public class NotesController {
             note = notesService.findNoteById(id);
         }
         catch(ResourceNotFoundException exception){
+            logger.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
         return new ResponseEntity<Note>( note, HttpStatus.OK);
@@ -50,6 +56,9 @@ public class NotesController {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiExceptionDetails> handleException(MethodArgumentTypeMismatchException exception) {
+
+        logger.error(exception.getMessage());
+
         ApiExceptionDetails errorResponse = new ApiExceptionDetails();
 
         String argumentName = exception.getName();
