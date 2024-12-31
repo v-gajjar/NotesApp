@@ -99,4 +99,21 @@ public class NotesServiceTest {
         // assert
         verify(notesRepository, times(1)).findById(id);
     }
+
+    @Test
+    public void Delete_ExistingNoteID_ReturnsAString() {
+        // arrange
+        Long id = 1L;
+
+        when(notesRepository.existsById(id)).thenReturn(true);
+        doNothing().when(notesRepository).deleteById(id);
+
+        // act
+        String message = notesService.deleteNoteById(id);
+
+        // assert
+        verify(notesRepository, times(1)).existsById(id);
+        verify(notesRepository, times(1)).deleteById(id);
+        assertEquals("Note successfully deleted", message);
+    }
 }
