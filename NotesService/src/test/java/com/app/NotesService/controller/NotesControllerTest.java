@@ -174,4 +174,27 @@ public class NotesControllerTest {
         assertThat(responseContent).isNotEmpty();
         assertThat(responseContent).isEqualTo("Note successfully deleted");
     }
+
+    @Test
+    public void Delete_IDWithoutRowInDatabase_ThrowsError() throws Exception{
+        //arrange
+        long id = 32L;
+
+        NoteNotFoundException exception = new
+                NoteNotFoundException("Unable to delete note from database");
+
+        when(notesService.deleteNoteById(any(Long.class))).thenThrow(exception);
+
+        // act
+        MvcResult result = mockMvc.perform(delete("/api/notes/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+
+    }
 }

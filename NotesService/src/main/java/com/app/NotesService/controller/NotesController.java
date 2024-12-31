@@ -60,7 +60,7 @@ public class NotesController {
 
         try {
             message = notesService.deleteNoteById(id);
-        } catch (Exception exception) {
+        } catch (NoteNotFoundException exception) {
             logger.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
