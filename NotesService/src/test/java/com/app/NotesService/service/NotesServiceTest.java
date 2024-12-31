@@ -116,4 +116,22 @@ public class NotesServiceTest {
         verify(notesRepository, times(1)).deleteById(id);
         assertEquals("Note successfully deleted", message);
     }
+
+    @Test
+    public void Delete_IDWithoutRowInDatabase_ThrowsError(){
+        // arrange
+        Long id = 32L;
+
+        when(notesRepository.existsById(id)).thenReturn(false);
+
+        // act
+        Assertions.assertThrows(NoteNotFoundException.class, () -> {
+            notesService.deleteNoteById(id);
+        });
+
+        // assert
+        verify(notesRepository, times(1)).existsById(id);
+        verify(notesRepository, never()).deleteById(id);
+
+    }
 }
