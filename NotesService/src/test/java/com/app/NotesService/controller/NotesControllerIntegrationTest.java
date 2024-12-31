@@ -198,4 +198,38 @@ public class NotesControllerIntegrationTest {
         assertEquals(HttpStatus.OK.value(), result.getStatusCode().value());
         assertEquals("Note successfully deleted", message);
     }
+
+    @Test
+    @Order(9)
+    public void Delete_IDWithoutRowInDatabase_ThrowsError() throws Exception{
+        // arrange
+        URI uri = new URI("http://localhost:" + port + "/api/notes/32");
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.DELETE, new HttpEntity<>(""), String.class);
+
+        // assert
+        assertEquals(404, result.getStatusCode().value());
+
+    }
+
+    @Test
+    @Order(10)
+    public void Delete_IDWithNonNumericalValue_ThrowsError() throws Exception {
+        // arrange
+        URI uri = new URI("http://localhost:" + port + "/api/notes/abc");
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.DELETE, new HttpEntity<>(""), String.class);
+
+        ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
+
+        String message = error.getMessage();
+
+        // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
+        assertTrue(message.startsWith("Incorrect data type provided for id"));
+
+        Assertions.assertEquals(400, result.getStatusCode().value());
+    }
 }
