@@ -30,4 +30,13 @@ public class NotesService {
                         "No entry found in database for note with id: = " + noteID
                 ));
     }
+
+    public String deleteNoteById(Long noteID) {
+
+        if ( notesRepository.existsById(noteID)){
+            notesRepository.deleteById(noteID);
+        }
+
+        return "Note successfully deleted";
+    }
 }
