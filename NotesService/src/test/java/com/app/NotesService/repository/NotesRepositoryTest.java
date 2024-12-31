@@ -59,4 +59,17 @@ public class NotesRepositoryTest {
 
         assertNull(note);
     }
+
+    @Test
+    public void Delete_ExistingNoteID_DeletesASingleNote() {
+        // arrange
+        Note note = new Note(null, "Sample Note", "Hello, World!");
+        Long id = entityManager.persistAndGetId(note, Long.class);
+
+        // act
+        notesRepository.deleteById(id);
+
+        // assert
+        assertNull(entityManager.find(Note.class, id));
+    }
 }
