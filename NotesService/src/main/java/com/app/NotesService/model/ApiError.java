@@ -1,11 +1,11 @@
-package com.app.NotesService.exception;
+package com.app.NotesService.model;
 
-public class ApiExceptionDetails {
+public class ApiError {
 
     private String message;
     private int statusCode;
 
-    public ApiExceptionDetails() {
+    public ApiError() {
     }
 
     public String getMessage() {

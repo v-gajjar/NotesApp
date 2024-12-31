@@ -1,6 +1,6 @@
 package com.app.NotesService.controller;
 
-import com.app.NotesService.exception.ApiExceptionDetails;
+import com.app.NotesService.model.ApiError;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import com.app.NotesService.service.NotesService;
@@ -175,7 +175,7 @@ public class NotesControllerIntegrationTest {
         // act
         ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
 
-        ApiExceptionDetails error = objectMapper.readValue(result.getBody(), ApiExceptionDetails.class );
+        ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
 
         String message = error.getMessage();
 

@@ -1,6 +1,6 @@
 package com.app.NotesService.controller;
 
-import com.app.NotesService.exception.ApiExceptionDetails;
+import com.app.NotesService.model.ApiError;
 import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
@@ -70,11 +70,11 @@ public class NotesController {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ApiExceptionDetails> handleException(MethodArgumentTypeMismatchException exception) {
+    public ResponseEntity<ApiError> handleException(MethodArgumentTypeMismatchException exception) {
 
         logger.error(exception.getMessage());
 
-        ApiExceptionDetails errorResponse = new ApiExceptionDetails();
+        ApiError errorResponse = new ApiError();
 
         String argumentName = exception.getName();
         String type = exception.getRequiredType().getSimpleName();
@@ -85,7 +85,7 @@ public class NotesController {
         errorResponse.setMessage(message);
         errorResponse.setStatusCode(statusCode);
 
-        return new ResponseEntity<ApiExceptionDetails>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiError>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
 

@@ -1,6 +1,6 @@
 package com.app.NotesService.controller;
 
-import com.app.NotesService.exception.ApiExceptionDetails;
+import com.app.NotesService.model.ApiError;
 import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
@@ -147,7 +147,7 @@ public class NotesControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         String content = response.getContentAsString();
-        ApiExceptionDetails error = objectMapper.readValue(content, ApiExceptionDetails.class );
+        ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -213,7 +213,7 @@ public class NotesControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         String content = response.getContentAsString();
-        ApiExceptionDetails error = objectMapper.readValue(content, ApiExceptionDetails.class );
+        ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
