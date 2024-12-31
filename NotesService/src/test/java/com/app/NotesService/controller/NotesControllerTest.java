@@ -23,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -153,5 +152,26 @@ public class NotesControllerTest {
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
+    }
+
+    @Test
+    public void Delete_ExistingNoteID_ReturnsAString() throws Exception{
+        //arrange
+        Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+
+        when(notesService.deleteNoteById(any(Long.class))).thenReturn("Note successfully deleted");
+
+        // act
+        MvcResult result = mockMvc.perform(delete("/api/notes/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertThat(responseContent).isNotEmpty();
+        assertThat(responseContent).isEqualTo("Note successfully deleted");
     }
 }
