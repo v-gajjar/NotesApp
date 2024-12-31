@@ -53,6 +53,14 @@ public class NotesController {
         return new ResponseEntity<Note>( note, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteNoteById(@PathVariable Long id){
+
+        String message = notesService.deleteNoteById(id);
+
+        return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiExceptionDetails> handleException(MethodArgumentTypeMismatchException exception) {
