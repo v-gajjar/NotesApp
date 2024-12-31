@@ -166,7 +166,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void Find_IDWithNonNumericalValue_ThrowsError() throws Exception{
         // arrange
         String id="abc";
