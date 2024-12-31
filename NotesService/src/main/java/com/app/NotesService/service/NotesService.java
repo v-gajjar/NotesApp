@@ -33,14 +33,13 @@ public class NotesService {
 
     public String deleteNoteById(Long noteID) {
 
-        if ( notesRepository.existsById(noteID) ){
-            notesRepository.deleteById(noteID);
-        } else {
+        if ( ! notesRepository.existsById(noteID) ){
             throw new NoteNotFoundException(
                     "Unable to delete note from database"
             );
         }
 
+        notesRepository.deleteById(noteID);
 
         return "Note successfully deleted";
     }
