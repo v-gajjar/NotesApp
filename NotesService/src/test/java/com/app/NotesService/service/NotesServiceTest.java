@@ -86,10 +86,17 @@ public class NotesServiceTest {
 
     @Test
     public void Find_IDWithoutRowInDatabase_ThrowsError(){
+        // arrange
         long id = 32L;
 
+        when(notesRepository.findById(id)).thenReturn(Optional.empty());
+
+        // act
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             notesService.findNoteById(id);
         });
+
+        // assert
+        verify(notesRepository, times(1)).findById(id);
     }
 }
