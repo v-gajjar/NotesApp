@@ -2,7 +2,7 @@ package com.app.NotesService.controller;
 
 import com.app.NotesService.exception.ApiExceptionDetails;
 import com.app.NotesService.exception.EmptyContentException;
-import com.app.NotesService.exception.ResourceNotFoundException;
+import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class NotesController {
         try{
             note = notesService.findNoteById(id);
         }
-        catch(ResourceNotFoundException exception){
+        catch(NoteNotFoundException exception){
             logger.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
@@ -56,7 +56,14 @@ public class NotesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteNoteById(@PathVariable Long id){
 
-        String message = notesService.deleteNoteById(id);
+        String message;
+
+        try {
+            message = notesService.deleteNoteById(id);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
+        }
 
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }

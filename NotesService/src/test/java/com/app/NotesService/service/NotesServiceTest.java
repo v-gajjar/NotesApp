@@ -1,7 +1,7 @@
 package com.app.NotesService.service;
 
 import com.app.NotesService.exception.EmptyContentException;
-import com.app.NotesService.exception.ResourceNotFoundException;
+import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import org.junit.jupiter.api.Assertions;
@@ -92,7 +92,7 @@ public class NotesServiceTest {
         when(notesRepository.findById(id)).thenReturn(Optional.empty());
 
         // act
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+        Assertions.assertThrows(NoteNotFoundException.class, () -> {
             notesService.findNoteById(id);
         });
 

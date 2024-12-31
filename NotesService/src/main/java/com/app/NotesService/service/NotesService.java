@@ -1,7 +1,7 @@
 package com.app.NotesService.service;
 
 import com.app.NotesService.exception.EmptyContentException;
-import com.app.NotesService.exception.ResourceNotFoundException;
+import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class NotesService {
     public Note findNoteById(Long noteID){
 
         return notesRepository.findById(noteID)
-                .orElseThrow(()-> new ResourceNotFoundException(
+                .orElseThrow(()-> new NoteNotFoundException(
                         "No entry found in database for note with id: = " + noteID
                 ));
     }

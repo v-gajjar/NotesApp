@@ -2,7 +2,7 @@ package com.app.NotesService.controller;
 
 import com.app.NotesService.exception.ApiExceptionDetails;
 import com.app.NotesService.exception.EmptyContentException;
-import com.app.NotesService.exception.ResourceNotFoundException;
+import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,8 +115,8 @@ public class NotesControllerTest {
         //arrange
         long id = 32L;
 
-        ResourceNotFoundException exception = new
-                ResourceNotFoundException("No entry found in database for note with id: " + id);
+        NoteNotFoundException exception = new
+                NoteNotFoundException("No entry found in database for note with id: " + id);
         when(notesService.findNoteById(any(Long.class))).thenThrow(exception);
 
         // act
