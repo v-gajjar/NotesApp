@@ -43,4 +43,9 @@ public class NotesService {
 
         return "Note successfully deleted";
     }
+
+    public Note update(Note note){
+
+        return note;
+    }
 }

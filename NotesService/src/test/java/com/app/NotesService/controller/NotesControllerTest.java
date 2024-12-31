@@ -22,7 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -218,5 +218,30 @@ public class NotesControllerTest {
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
+    }
+
+    @Test
+    public void Update_ExistingNoteInDatabase_ReturnsUpdatedNote() throws Exception{
+        // arrange
+        Note updatedNote = new Note(1L, "Updated Note", "Hello, World!");
+
+        when(notesService.update(any(Note.class))).thenReturn(updatedNote);
+
+        String updatedNoteJson = objectMapper.writeValueAsString(updatedNote);
+
+        // act
+        MvcResult result = mockMvc.perform( put("/api/notes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedNoteJson))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        String response = result.getResponse().getContentAsString();
+        assertThat(response).isNotEmpty();
+        assertThat(response).isEqualTo(updatedNoteJson);
+
+        verify(notesService, times(1)).update(any(Note.class));
     }
 }

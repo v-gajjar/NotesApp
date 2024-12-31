@@ -53,6 +53,14 @@ public class NotesController {
         return new ResponseEntity<Note>( note, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Note> update(@RequestBody Note note){
+
+        Note updatedNote = notesService.update(note);
+
+        return new ResponseEntity<Note>( updatedNote, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteNoteById(@PathVariable Long id){
 
