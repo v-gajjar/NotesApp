@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -184,5 +181,21 @@ public class NotesControllerIntegrationTest {
         assertTrue(message.startsWith("Incorrect data type provided for id"));
 
         Assertions.assertEquals(400, result.getStatusCode().value());
+    }
+
+    @Test
+    @Order(8)
+    public void Delete_ExistingNoteID_ReturnsAString() throws Exception{
+        // arrange
+        URI uri = new URI("http://localhost:" + port + "/api/notes/1");
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.DELETE, new HttpEntity<>(""), String.class);
+
+        String message = result.getBody();
+
+        // assert
+        assertEquals(HttpStatus.OK.value(), result.getStatusCode().value());
+        assertEquals("Note successfully deleted", message);
     }
 }
