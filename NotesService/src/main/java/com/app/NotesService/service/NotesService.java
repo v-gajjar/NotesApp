@@ -46,6 +46,9 @@ public class NotesService {
 
     public Note update(Note note){
 
+        if ( notesRepository.existsById(note.getId())) {
+            return notesRepository.save(note);
+        }
         return note;
     }
 }
