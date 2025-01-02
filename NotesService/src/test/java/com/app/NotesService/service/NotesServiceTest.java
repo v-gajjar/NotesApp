@@ -134,4 +134,22 @@ public class NotesServiceTest {
         verify(notesRepository, never()).deleteById(id);
 
     }
+
+    @Test
+    public void Update_ExistingNoteInDatabase_ReturnsUpdatedNote() throws Exception{
+        // arrange
+        Note updatedNote = new Note(1L, "Updated Note", "Hello, World!");
+
+        when(notesRepository.existsById(updatedNote.getId())).thenReturn(true);
+        when(notesRepository.save(updatedNote)).thenReturn(updatedNote);
+
+
+        // act
+        notesService.update(updatedNote);
+
+        // assert
+        verify(notesRepository, times(1)).existsById(updatedNote.getId());
+        verify(notesRepository, times(1)).save(any(Note.class));
+
+    }
 }
