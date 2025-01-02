@@ -56,7 +56,15 @@ public class NotesController {
     @PutMapping("/{id}")
     public ResponseEntity<Note> update(@RequestBody Note note){
 
-        Note updatedNote = notesService.update(note);
+        Note updatedNote;
+
+        try{
+            updatedNote = notesService.update(note);
+        }
+        catch(NoteNotFoundException exception){
+            logger.error(exception.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
+        }
 
         return new ResponseEntity<Note>( updatedNote, HttpStatus.OK);
     }
