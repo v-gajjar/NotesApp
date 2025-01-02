@@ -244,4 +244,28 @@ public class NotesControllerTest {
 
         verify(notesService, times(1)).update(any(Note.class));
     }
+
+    @Test
+    public void Update_NoteNotFoundInDatabase_ThrowsError() throws Exception{
+        // arrange
+        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!");
+        String updatedNoteJson = objectMapper.writeValueAsString(updatedNote);
+
+        NoteNotFoundException exception = new
+                NoteNotFoundException("Unable to update provided note");
+
+        when(notesService.update(any(Note.class))).thenThrow(exception);
+
+        // act
+        MvcResult result = mockMvc.perform( put("/api/notes/32")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedNoteJson))
+                .andExpect(status().isNotFound())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+    }
 }
