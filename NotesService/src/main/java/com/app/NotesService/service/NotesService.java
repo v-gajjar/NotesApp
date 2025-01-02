@@ -46,9 +46,11 @@ public class NotesService {
 
     public Note update(Note note){
 
-        if ( notesRepository.existsById(note.getId())) {
-            return notesRepository.save(note);
+        if ( ! notesRepository.existsById(note.getId())) {
+            throw new NoteNotFoundException(
+                    "Unable to update provided note"
+            );
         }
-        return note;
+        return notesRepository.save(note);
     }
 }
