@@ -152,4 +152,21 @@ public class NotesServiceTest {
         verify(notesRepository, times(1)).save(any(Note.class));
 
     }
+
+    @Test
+    public void Update_NoteNotFoundInDatabase_ThrowsError() throws Exception{
+        // arrange
+        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!");
+
+        when(notesRepository.existsById(updatedNote.getId())).thenReturn(false);
+
+        // act
+        Assertions.assertThrows(NoteNotFoundException.class, () -> {
+            notesService.update(updatedNote);
+        });
+
+        // assert
+        verify(notesRepository, times(1)).existsById(updatedNote.getId());
+        verify(notesRepository, never()).save(updatedNote);
+    }
 }
