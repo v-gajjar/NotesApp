@@ -232,6 +232,35 @@ public class NotesControllerIntegrationTest {
 
     @Test
     @Order(10)
+    public void Update_IDWithNonNumericalValue_ThrowsError() throws Exception {
+        // arrange
+        String id="abc";
+        URI uri = new URI("http://localhost:" + port + "/api/notes/" + id);
+
+        Note existingNote = new Note(1L, "I love testing!", "I LOVE writing Integration Tests!");
+        Note updatedNote = new Note(1L, "Updated Note Title", "Updated note contents");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-COM-PERSIST", "true");
+
+        HttpEntity<Note> request = new HttpEntity<>(updatedNote, headers);
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.PUT, request, String.class);
+
+        ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
+
+        String message = error.getMessage();
+
+        // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
+        assertTrue(message.startsWith("Incorrect data type provided for id"));
+
+        Assertions.assertEquals(400, result.getStatusCode().value());
+    }
+
+    @Test
+    @Order(11)
     public void Delete_ExistingNoteID_ReturnsAString() throws Exception{
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/1");
@@ -247,7 +276,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     public void Delete_IDWithoutRowInDatabase_ThrowsError() throws Exception{
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/32");
@@ -261,7 +290,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(12)
+    @Order(13)
     public void Delete_IDWithNonNumericalValue_ThrowsError() throws Exception {
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/abc");
