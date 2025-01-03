@@ -48,7 +48,7 @@ Variables used in the integration-test.properties file
 - test_db_password: used to set spring.datasource.password
 
 ## Spring Profiles
-Spring profiles are used to choose a logging configuration. There are currently two profiles:
+Spring profiles are used to define various logback logging configurations. There are currently two profiles:
 
 - production: the logs are saved to a file stored at the filepath defined by the logging_file_path env variable
 - development: logging is output to the console
