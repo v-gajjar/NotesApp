@@ -209,7 +209,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void Update_NoteNotFoundInDatabase_ThrowsError() throws Exception{
         // arrange
         Long id = 32L;
