@@ -268,4 +268,30 @@ public class NotesControllerTest {
         MockHttpServletResponse response = result.getResponse();
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     }
+
+    @Test
+    public void Update_IDWithNonNumericalValue_ThrowsError() throws Exception {
+        // arrange
+        String id="abc";
+        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!");
+        String updatedNoteJson = objectMapper.writeValueAsString(updatedNote);
+
+        // act
+        MvcResult result = mockMvc.perform( put("/api/notes/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedNoteJson))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        MockHttpServletResponse response = result.getResponse();
+
+        String content = response.getContentAsString();
+        ApiError error = objectMapper.readValue(content, ApiError.class );
+
+        String message = error.getMessage();
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertTrue(message.startsWith("Incorrect data type provided for id"));
+    }
 }
