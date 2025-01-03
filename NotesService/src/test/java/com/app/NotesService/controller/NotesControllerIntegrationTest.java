@@ -185,6 +185,31 @@ public class NotesControllerIntegrationTest {
 
     @Test
     @Order(8)
+    public void Update_ExistingNoteInDatabase_ReturnsUpdatedNote() throws Exception{
+        // arrange
+        Long id = 1L;
+        URI uri = new URI("http://localhost:" + port + "/api/notes/" + id);
+
+        Note existingNote = new Note(id, "I love testing!", "I LOVE writing Integration Tests!");
+        Note updatedNote = new Note(id, "Updated Note Title", "Updated note contents");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-COM-PERSIST", "true");
+
+        HttpEntity<Note> request = new HttpEntity<>(updatedNote, headers);
+
+        // act
+        ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.PUT, request, String.class);
+
+        Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
+
+        // assert
+        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertEquals(updatedNote.toString(), returnedNote.toString());
+    }
+
+    @Test
+    @Order(9)
     public void Delete_ExistingNoteID_ReturnsAString() throws Exception{
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/1");
@@ -200,7 +225,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void Delete_IDWithoutRowInDatabase_ThrowsError() throws Exception{
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/32");
@@ -214,7 +239,7 @@ public class NotesControllerIntegrationTest {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     public void Delete_IDWithNonNumericalValue_ThrowsError() throws Exception {
         // arrange
         URI uri = new URI("http://localhost:" + port + "/api/notes/abc");
