@@ -39,7 +39,7 @@ Variables used in the logback-spring.xml file
 
 - logging_file_path: used to set the value of the property with name "LOGS"
 
-### The following variables need to be refined to run the integration test: 
+### The following variables need to be defined to run the NotesController integration test: 
 
 Variables used in the integration-test.properties file
 
