@@ -54,7 +54,7 @@ public class NotesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Note> update(@RequestBody Note note){
+    public ResponseEntity<Note> update(@PathVariable Long id, @RequestBody Note note){
 
         Note updatedNote;
 
