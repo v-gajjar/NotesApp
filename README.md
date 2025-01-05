@@ -67,7 +67,9 @@ Environment variables are currently used to specify database connection related 
 ```
 
 ## Spring Profiles
-Spring profiles are used to define various logback logging configurations. There are currently two profiles:
+Spring profiles are used to define various logback logging configurations. The logback-spring.xml is used to define the configuration. 
+
+There are currently two profiles:
 
 | name | decription |
 | :--- | :--- |
@@ -109,13 +111,26 @@ The following variables need to be defined to run the Integration Test
 | test_db_password | used to set spring.datasource.password |
 
 # Running Unit Tests
-There are currently thre unit tests. No additional setup is required in order to run the unit tests. 
+There are currently three unit tests. No additional setup is required in order to run the unit tests. 
 
 | Test Name | Location |
 | :--- | :--- |
 | NotesControllerTest.java | NotesService/src/test/java/com/app/NotesService/controller/ |
 | NotesServiceTest.java | NotesService/src/test/java/com/app/NotesService/service/ |
 | NotesRepositoryTest.java | NotesService/src/test/java/com/app/NotesService/repository/ |
+
+## Enivronment Variables
+There are currently no environment variables used within any unit tests
+
+## Spring profiles
+The spring profiles for unit tests has been assigned as "development". This is set in the application-unit-test.properties file
+
+| File Name | Location |
+| :--- | :--- |
+| application-unit-test.properties | NotesService/src/main/resources |
+
+
+
 
 
 
