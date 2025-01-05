@@ -41,7 +41,12 @@ A JVM parameter must also be specified to select the logging behaviour
 ## Environment Variables
 Environment variables are currently used to specify database connection related information, and a filepath for where the logging file should be stored. 
 
-The relevant files are located at the NotesService/src/main/resources folder
+
+| File Name | Location |
+| :--- | :--- |
+| application.properties | NotesService/src/main/resources |
+| logback-spring.xml | NotesService/src/main/resources |
+
 
 ### Variables used in the application.properties file 
 
@@ -81,14 +86,19 @@ or
 ```
 
 # Running Integration Tests
-There is currently one Integration test, NotesControllerIntegrationTest. 
+There is currently one Integration test.
 
-This test is located in the NotesService/src/test/java/com/app/NotesService/controller folder. 
+| Test Name | Location |
+| :--- | :--- |
+| NotesControllerIntegrationTest.java | NotesService/src/test/java/com/app/NotesService/controller/ |
 
 ## Environment variables
-The following variables need to be defined to run the NotesControllerIntegrationTest 
+The following variables need to be defined to run the Integration Test
 
-The relevant files are located at the NotesService/src/main/resources folder
+| File Name | Location |
+| :--- | :--- |
+| application-integration-test.properties | NotesService/src/main/resources |
+
 
 ### Variable used in application-integration-test.properties file
 
