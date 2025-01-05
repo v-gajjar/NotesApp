@@ -111,7 +111,7 @@ The following variables need to be defined to run the NotesControllerIntegration
 | test_db_password | used to set spring.datasource.password |
 
 ## Spring Profiles
-The spring profiles for unit tests has been assigned as "development". This is set in the application-integration-test.properties file
+The spring profiles for integration tests has been assigned as "development". This is set in the application-integration-test.properties file
 
 | File Name | Location |
 | :--- | :--- |
