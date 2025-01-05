@@ -43,7 +43,7 @@ Environment variables are currently used to specify database connection related 
 Variables used in the NotesService/src/main/resources/application.properties file
 
 | name | used to set |
-| --- | --- |
+| :--- | :--- |
 | db_url | spring.datasource.url |
 | db_user | set spring.datasource.username|
 | db_password | spring.datasource.password |
@@ -51,7 +51,7 @@ Variables used in the NotesService/src/main/resources/application.properties fil
 Variables used in the NotesService/src/main/resources/logback-spring.xml file
 
 | name | used to set |
-| --- | --- |
+| :--- | :--- |
 | logging_file_path | value of the property with name "LOGS" |
 
 ```
@@ -64,7 +64,7 @@ Variables used in the NotesService/src/main/resources/logback-spring.xml file
 Variables used in the NotesService/src/main/resources/application-integration-test.properties file
 
 | name | used to set |
-| --- | --- |
+| :--- | :--- |
 | test_db_url | spring.datasource.url |
 | test_db_user | spring.datasource.username |
 | test_db_password | used to set spring.datasource.password |
@@ -74,7 +74,7 @@ Variables used in the NotesService/src/main/resources/application-integration-te
 Spring profiles are used to define various logback logging configurations. There are currently two profiles:
 
 | name | decription |
-| --- | --- |
+| :--- | :--- |
 | production | the logs are saved to a file stored at the filepath defined by the logging_file_path env variable |
 | development | logging is output to the console |
 
