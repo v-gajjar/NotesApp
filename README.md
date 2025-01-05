@@ -10,6 +10,18 @@ When I reach the relevant step in the challege, the client side will be set up a
 
 I am planning to push regular updates, so feel free to follow me on here, on alternatively on LinkedIn: https://www.linkedin.com/in/vinaygajjar/
 
+# MySQL Tables
+There is currently just one MySQL table, for persisting a Note entity:
+
+```
+CREATE TABLE `note` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) DEFAULT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+)
+```
+
 # Installation and running the main application or tests
 
 Cloning the repository: 
@@ -28,29 +40,43 @@ Environment variables are currently used to specify database connection related 
 
 ### The following variables need to be defined to run the main application:
 
-Variables used in the application.properties file
+Variables used in the NotesService/src/main/resources/application.properties file
 
-- db_url: used to set spring.datasource.url
-- db_user: used to set spring.datasource.username
-- db_password: used to set spring.datasource.password
+| name | used to set |
+| --- | --- |
+| db_url | spring.datasource.url |
+| db_user | set spring.datasource.username|
+| db_password | spring.datasource.password |
 
-Variables used in the logback-spring.xml file
+Variables used in the NotesService/src/main/resources/logback-spring.xml file
 
-- logging_file_path: used to set the value of the property with name "LOGS"
+| name | used to set |
+| --- | --- |
+| logging_file_path | value of the property with name "LOGS" |
 
-### The following variables need to be defined to run the NotesController integration test: 
+```
+<property name="LOGS" value="${logging_file_path}" />
+```
 
-Variables used in the integration-test.properties file
+### The following variables need to be defined to run the NotesControllerIntegrationTest 
+(located at NotesService/src/test/java/com/app/NotesService/):
 
-- test_db_url: used to set spring.datasource.url
-- test_db_user: used to set spring.datasource.username
-- test_db_password: used to set spring.datasource.password
+Variables used in the NotesService/src/main/resources/application-integration-test.properties file
+
+| name | used to set |
+| --- | --- |
+| test_db_url | spring.datasource.url |
+| test_db_user | spring.datasource.username |
+| test_db_password | used to set spring.datasource.password |
+
 
 ## Spring Profiles
 Spring profiles are used to define various logback logging configurations. There are currently two profiles:
 
-- production: the logs are saved to a file stored at the filepath defined by the logging_file_path env variable
-- development: logging is output to the console
+| name | decription |
+| --- | --- |
+| production | the logs are saved to a file stored at the filepath defined by the logging_file_path env variable |
+| development | logging is output to the console |
 
 When running the unit tests or the integration test, development is set as the default via the relevant application properties file
 
