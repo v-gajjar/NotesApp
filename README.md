@@ -1,6 +1,5 @@
 # A note-taking application based on John Crickett's 'Build Your Own Google Keep' Coding Challenge
 
-# Description
 This is a full-stack notes app based on John Crickett's 'Build Your Own Google Keep' challenge, from the Coding Challenges series.
 
 See the challenge here: https://codingchallenges.fyi/challenges/challenge-keep/
