@@ -8,7 +8,7 @@ I'm currently building the back-end which is a Spring Boot application, that use
 
 When I reach the relevant step in the challege, the client side will be set up as a React and TypeScript project which has been generated using Vite.js. The intention is to use Tailwind.css for styling. 
 
-I am planning to push regular updates, so feel free to follow me on here, on alternatively on LinkedIn: https://www.linkedin.com/in/vinaygajjar/
+I am planning to push regular updates, so feel free to follow me on here, on alternatively on LinkedIn: https://www.linkedin.com/in/vinaygajjar/.
 
 # MySQL Tables
 There is currently just one MySQL table, for persisting a Note entity:
@@ -36,7 +36,7 @@ I am using IntelliJ IDEA Community Edition.
 
 # Running the main application
 Before the main application can be run, there are a few environment variables that must be set up. 
-A JVM parameter must also be specified to select the logging behaviour
+A JVM parameter must also be specified to select the logging behaviour.
 
 ## Environment Variables
 Environment variables are currently used to specify database connection related information, and a filepath for where the logging file should be stored. 
@@ -76,7 +76,7 @@ There are currently two profiles:
 | production | the logs are saved to a file stored at the filepath defined by the logging_file_path env variable |
 | development | logging is output to the console |
 
-When running the unit tests or the integration test, development is set as the default via the relevant application properties file
+When running the unit tests or the integration test, development is set as the default via the relevant application properties file.
 
 In order to specify the option for running the main application, a jvm paramter must be supplied:
 ```
@@ -111,7 +111,7 @@ The following variables need to be defined to run the NotesControllerIntegration
 | test_db_password | used to set spring.datasource.password |
 
 ## Spring Profiles
-The spring profiles for integration tests has been assigned as "development". This is set in the application-integration-test.properties file
+The spring profiles for integration tests has been assigned as "development". This is set in the application-integration-test.properties file.
 
 | File Name | Location |
 | :--- | :--- |
@@ -137,7 +137,7 @@ There are currently three unit tests. No additional setup is required in order t
 There are currently no environment variables used within any unit tests.
 
 ## Spring profiles
-The spring profiles for unit tests has been assigned as "development". This is set in the application-unit-test.properties file
+The spring profiles for unit tests has been assigned as "development". This is set in the application-unit-test.properties file.
 
 | File Name | Location |
 | :--- | :--- |
