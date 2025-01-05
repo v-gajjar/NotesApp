@@ -22,25 +22,28 @@ CREATE TABLE `note` (
 )
 ```
 
-# Installation and running the main application or tests
+# Installation
 
 Cloning the repository: 
 ```
 git clone https://github.com/v-gajjar/NotesApp.git
 ```
 
-## Using an IDE
+# Using an IDE
 I would highly recommend using an IDE to run the project. 
 
 I am using IntelliJ IDEA Community Edition.
 
+# Running the main application
+Before the main application can be run, there are a few environment variables that must be set up. 
+A JVM parameter must also be specified to select the logging behaviour
 
 ## Environment Variables
 Environment variables are currently used to specify database connection related information, and a filepath for where the logging file should be stored. 
 
-### The following variables need to be defined to run the main application:
+The relevant files are located at the NotesService/src/main/resources folder
 
-Variables used in the NotesService/src/main/resources/application.properties file
+### Variables used in the application.properties file 
 
 | name | used to set |
 | :--- | :--- |
@@ -48,7 +51,7 @@ Variables used in the NotesService/src/main/resources/application.properties fil
 | db_user | set spring.datasource.username|
 | db_password | spring.datasource.password |
 
-Variables used in the NotesService/src/main/resources/logback-spring.xml file
+### Variables used in the logback-spring.xml file 
 
 | name | used to set |
 | :--- | :--- |
@@ -57,18 +60,6 @@ Variables used in the NotesService/src/main/resources/logback-spring.xml file
 ```
 <property name="LOGS" value="${logging_file_path}" />
 ```
-
-### The following variables need to be defined to run the NotesControllerIntegrationTest 
-(located at NotesService/src/test/java/com/app/NotesService/):
-
-Variables used in the NotesService/src/main/resources/application-integration-test.properties file
-
-| name | used to set |
-| :--- | :--- |
-| test_db_url | spring.datasource.url |
-| test_db_user | spring.datasource.username |
-| test_db_password | used to set spring.datasource.password |
-
 
 ## Spring Profiles
 Spring profiles are used to define various logback logging configurations. There are currently two profiles:
@@ -88,6 +79,24 @@ or
 ```
 -Dspring.profiles.active=development
 ```
+
+# Running Integration Tests
+There is currently one Integration test, NotesControllerIntegrationTest.
+
+This test is located in the NotesService/src/test/java/com/app/NotesService/controller folder. 
+
+## Environment variables
+The following variables need to be defined to run the NotesControllerIntegrationTest 
+
+The relevant files are located at the NotesService/src/main/resources folder
+
+### Variable used in application-integration-test.properties file
+
+| name | used to set |
+| :--- | :--- |
+| test_db_url | spring.datasource.url |
+| test_db_user | spring.datasource.username |
+| test_db_password | used to set spring.datasource.password |
 
 
 
