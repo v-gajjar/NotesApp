@@ -19,7 +19,7 @@ git clone https://github.com/v-gajjar/NotesApp.git
 ```
 
 ## Using an IDE
-I would highly recommend using an IDE to run the project, it will make it much easier to set up env variables and create different run configurations to test logging in production and development modes. 
+I would highly recommend using an IDE to run the project. 
 
 I am using IntelliJ IDEA Community Edition.
 
