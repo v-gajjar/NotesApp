@@ -45,7 +45,7 @@ The relevant files are located at the NotesService/src/main/resources folder
 
 ### Variables used in the application.properties file 
 
-| name | used to set |
+| Name | Used to Set |
 | :--- | :--- |
 | db_url | spring.datasource.url |
 | db_user | set spring.datasource.username|
@@ -53,7 +53,7 @@ The relevant files are located at the NotesService/src/main/resources folder
 
 ### Variables used in the logback-spring.xml file 
 
-| name | used to set |
+| Name | Used to Set |
 | :--- | :--- |
 | logging_file_path | value of the property with name "LOGS" |
 
@@ -81,7 +81,7 @@ or
 ```
 
 # Running Integration Tests
-There is currently one Integration test, NotesControllerIntegrationTest.
+There is currently one Integration test, NotesControllerIntegrationTest. 
 
 This test is located in the NotesService/src/test/java/com/app/NotesService/controller folder. 
 
@@ -97,6 +97,18 @@ The relevant files are located at the NotesService/src/main/resources folder
 | test_db_url | spring.datasource.url |
 | test_db_user | spring.datasource.username |
 | test_db_password | used to set spring.datasource.password |
+
+# Running Unit Tests
+There are currently thre unit tests. No additional setup is required in order to run the unit tests. 
+
+| Test Name | Location |
+| :--- | :--- |
+| NotesControllerTest.java | NotesService/src/test/java/com/app/NotesService/controller/ |
+| NotesServiceTest.java | NotesService/src/test/java/com/app/NotesService/service/ |
+| NotesRepositoryTest.java | NotesService/src/test/java/com/app/NotesService/repository/ |
+
+
+
 
 
 
