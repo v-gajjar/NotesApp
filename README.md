@@ -53,7 +53,7 @@ Environment variables are currently used to specify database connection related 
 | Name | Used to Set |
 | :--- | :--- |
 | db_url | spring.datasource.url |
-| db_user | set spring.datasource.username|
+| db_user | spring.datasource.username|
 | db_password | spring.datasource.password |
 
 ### Variables used in the logback-spring.xml file 
@@ -104,11 +104,11 @@ The following variables need to be defined to run the NotesControllerIntegration
 
 ### Variable used in application-integration-test.properties file
 
-| name | used to set |
+| Name | Used to Set |
 | :--- | :--- |
 | test_db_url | spring.datasource.url |
 | test_db_user | spring.datasource.username |
-| test_db_password | used to set spring.datasource.password |
+| test_db_password | spring.datasource.password |
 
 ## Spring Profiles
 The spring profiles for integration tests has been assigned as "development". This is set in the application-integration-test.properties file.
