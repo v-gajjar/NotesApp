@@ -88,14 +88,14 @@ or
 ```
 
 # Running Integration Tests
-There is currently one Integration test.
+There is currently one integration test.
 
 | Test Name | Location |
 | :--- | :--- |
 | NotesControllerIntegrationTest.java | NotesService/src/test/java/com/app/NotesService/controller/ |
 
 ## Environment variables
-The following variables need to be defined to run the Integration Test
+The following variables need to be defined to run the NotesControllerIntegrationTest.java
 
 | File Name | Location |
 | :--- | :--- |
@@ -110,6 +110,20 @@ The following variables need to be defined to run the Integration Test
 | test_db_user | spring.datasource.username |
 | test_db_password | used to set spring.datasource.password |
 
+## Spring Profiles
+The spring profiles for unit tests has been assigned as "development". This is set in the application-integration-test.properties file
+
+| File Name | Location |
+| :--- | :--- |
+| application-integration-test.properties | NotesService/src/main/resources |
+
+## MySQL Table Setup
+Before the NotesController integration tests are run, a script is run in order to delete and re-create the tables. This ensures the database is in a known state prior to testing.
+
+| File Name | Location |
+| :--- | :--- |
+| pre-test-setup.sql | NotesService/src/main/resources/scripts/pre-test-setup.sql |
+
 # Running Unit Tests
 There are currently three unit tests. No additional setup is required in order to run the unit tests. 
 
@@ -120,7 +134,7 @@ There are currently three unit tests. No additional setup is required in order t
 | NotesRepositoryTest.java | NotesService/src/test/java/com/app/NotesService/repository/ |
 
 ## Enivronment Variables
-There are currently no environment variables used within any unit tests
+There are currently no environment variables used within any unit tests.
 
 ## Spring profiles
 The spring profiles for unit tests has been assigned as "development". This is set in the application-unit-test.properties file
