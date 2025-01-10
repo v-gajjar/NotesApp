@@ -22,6 +22,7 @@ There is currently just one MySQL table, for persisting a Note entity:
 | content | text        | NO   |     | NULL    |                |
 +---------+-------------+------+-----+---------+----------------+
 ```
+Script for creating the note table: 
 
 ```
 CREATE TABLE `note` (
