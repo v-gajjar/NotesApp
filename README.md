@@ -14,6 +14,16 @@ I am planning to push regular updates, so feel free to follow me on here, on alt
 There is currently just one MySQL table, for persisting a Note entity:
 
 ```
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int         | NO   | PRI | NULL    | auto_increment |
+| title   | varchar(45) | YES  |     | NULL    |                |
+| content | text        | NO   |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+```
+
+```
 CREATE TABLE `note` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
