@@ -26,15 +26,8 @@ public class NotesController {
     @PostMapping
     public ResponseEntity<Note> save(@RequestBody Note note) {
 
-        Note createdNote;
+        Note createdNote = notesService.save(note);
 
-        try{
-            createdNote = notesService.save(note);
-        }
-        catch (EmptyContentException exception){
-            logger.error(exception.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
-        }
         return new ResponseEntity<Note>( createdNote, HttpStatus.CREATED);
     }
 
@@ -82,6 +75,23 @@ public class NotesController {
         }
 
         return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(EmptyContentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleEmptyContentException(EmptyContentException exception){
+
+        logger.error(exception.getMessage());
+
+        ApiError errorResponse = new ApiError();
+
+        String message = exception.getMessage();
+        int statusCode = HttpStatus.BAD_REQUEST.value();
+
+        errorResponse.setMessage(message);
+        errorResponse.setStatusCode(statusCode);
+
+        return new ResponseEntity<ApiError>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
