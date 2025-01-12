@@ -86,7 +86,7 @@ public class NotesController {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ApiError> handleException(MethodArgumentTypeMismatchException exception) {
+    public ResponseEntity<ApiError> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
 
         logger.error(exception.getMessage());
 
