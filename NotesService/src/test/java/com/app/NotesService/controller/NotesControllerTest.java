@@ -284,7 +284,14 @@ public class NotesControllerTest {
 
         // assert
         MockHttpServletResponse response = result.getResponse();
-        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+
+
+        String content = response.getContentAsString();
+        ApiError error = objectMapper.readValue(content, ApiError.class );
+
+        String message = error.getMessage();
+        assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
+        assertEquals("Unable to update provided note", message);
     }
 
     @Test
