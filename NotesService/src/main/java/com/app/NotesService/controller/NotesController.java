@@ -34,15 +34,8 @@ public class NotesController {
     @GetMapping("/{id}")
     public ResponseEntity<Note> findNoteById(@PathVariable Long id){
 
-        Note note;
+        Note note = notesService.findNoteById(id);
 
-        try{
-            note = notesService.findNoteById(id);
-        }
-        catch(NoteNotFoundException exception){
-            logger.error(exception.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
-        }
         return new ResponseEntity<Note>( note, HttpStatus.OK);
     }
 
@@ -75,6 +68,23 @@ public class NotesController {
         }
 
         return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(NoteNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ApiError> handleNoteNotFoundException(NoteNotFoundException exception){
+
+        logger.error(exception.getMessage());
+
+        ApiError errorResponse = new ApiError();
+
+        String message = exception.getMessage();
+        int statusCode = HttpStatus.BAD_REQUEST.value();
+
+        errorResponse.setMessage(message);
+        errorResponse.setStatusCode(statusCode);
+
+        return new ResponseEntity<ApiError>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmptyContentException.class)
