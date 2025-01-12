@@ -85,7 +85,13 @@ public class NotesControllerTest {
 
         // assert
         MockHttpServletResponse response = result.getResponse();
+
+        String content = response.getContentAsString();
+        ApiError error = objectMapper.readValue(content, ApiError.class );
+
+        String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertEquals("Note cannot have empty content", message);
     }
 
     @Test
