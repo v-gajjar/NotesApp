@@ -90,7 +90,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertEquals("Note cannot have empty content", message);
     }
 
@@ -139,7 +139,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
         assertEquals("No entry found in database for note with id: " + id, message);
     }
 
@@ -162,7 +162,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 
@@ -234,7 +234,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 
