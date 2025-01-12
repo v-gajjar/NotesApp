@@ -42,15 +42,7 @@ public class NotesController {
     @PutMapping("/{id}")
     public ResponseEntity<Note> update(@PathVariable Long id, @RequestBody Note note){
 
-        Note updatedNote;
-
-        try{
-            updatedNote = notesService.update(note);
-        }
-        catch(NoteNotFoundException exception){
-            logger.error(exception.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
-        }
+        Note updatedNote = notesService.update(note);
 
         return new ResponseEntity<Note>( updatedNote, HttpStatus.OK);
     }
