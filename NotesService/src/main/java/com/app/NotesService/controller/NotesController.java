@@ -79,7 +79,7 @@ public class NotesController {
         ApiError errorResponse = new ApiError();
 
         String message = exception.getMessage();
-        int statusCode = HttpStatus.BAD_REQUEST.value();
+        int statusCode = HttpStatus.NOT_FOUND.value();
 
         errorResponse.setMessage(message);
         errorResponse.setStatusCode(statusCode);
