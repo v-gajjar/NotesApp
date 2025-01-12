@@ -316,7 +316,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 }
