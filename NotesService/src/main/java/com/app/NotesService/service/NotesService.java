@@ -27,7 +27,7 @@ public class NotesService {
 
         return notesRepository.findById(noteID)
                 .orElseThrow(()-> new NoteNotFoundException(
-                        "No entry found in database for note with id: = " + noteID
+                        "No entry found in database for note with id: " + noteID
                 ));
     }
 
