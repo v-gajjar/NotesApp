@@ -211,7 +211,7 @@ public class NotesControllerTest {
         ApiError error = objectMapper.readValue(content, ApiError.class );
 
         String message = error.getMessage();
-        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
         assertEquals("Unable to delete note from database", message);
     }
 
