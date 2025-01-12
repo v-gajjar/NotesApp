@@ -206,7 +206,13 @@ public class NotesControllerTest {
 
         // assert
         MockHttpServletResponse response = result.getResponse();
+
+        String content = response.getContentAsString();
+        ApiError error = objectMapper.readValue(content, ApiError.class );
+
+        String message = error.getMessage();
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertEquals("Unable to delete note from database", message);
     }
 
     @Test
