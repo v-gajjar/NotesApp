@@ -169,8 +169,13 @@ public class NotesControllerIntegrationTest {
         // act
         ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
 
+        ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
+        String message = error.getMessage();
+
         // assert
-        Assertions.assertEquals(404, result.getStatusCode().value());
+        assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatusCode().value());
+        assertEquals("No entry found in database for note with id: " + id, message);
     }
 
     @Test
