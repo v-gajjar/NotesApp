@@ -16,8 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.net.URI;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "/application-integration-test.properties")
@@ -60,8 +59,8 @@ public class NotesControllerIntegrationTest {
         Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
 
         // assert
-        Assertions.assertEquals(201, result.getStatusCode().value());
-        Assertions.assertNotNull(returnedNote.getId());
+        assertEquals(HttpStatus.CREATED.value(), result.getStatusCode().value());
+        assertNotNull(returnedNote.getId());
     }
 
     @Test
@@ -83,8 +82,8 @@ public class NotesControllerIntegrationTest {
         Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
 
         // assert
-        Assertions.assertEquals(201, result.getStatusCode().value());
-        Assertions.assertNotNull(returnedNote.getId());
+        assertEquals(HttpStatus.CREATED.value(), result.getStatusCode().value());
+        assertNotNull(returnedNote.getId());
     }
 
     @Test
@@ -154,9 +153,9 @@ public class NotesControllerIntegrationTest {
         Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
 
         // assert
-        Assertions.assertEquals(200, result.getStatusCode().value());
-        Assertions.assertNotNull(returnedNote.getId());
-        Assertions.assertEquals(noteJson, responseContent);
+        assertEquals(HttpStatus.OK.value(), result.getStatusCode().value());
+        assertNotNull(returnedNote.getId());
+        assertEquals(noteJson, responseContent);
     }
 
     @Test
@@ -189,14 +188,12 @@ public class NotesControllerIntegrationTest {
         ResponseEntity<String> result = this.restTemplate.getForEntity(uri, String.class);
 
         ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
-
         String message = error.getMessage();
 
         // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
-
-        Assertions.assertEquals(400, result.getStatusCode().value());
     }
 
     @Test
@@ -220,8 +217,8 @@ public class NotesControllerIntegrationTest {
         Note returnedNote = objectMapper.readValue(result.getBody(), Note.class);
 
         // assert
-        Assertions.assertEquals(200, result.getStatusCode().value());
-        Assertions.assertEquals(updatedNote.toString(), returnedNote.toString());
+        assertEquals(HttpStatus.OK.value(), result.getStatusCode().value());
+        assertEquals(updatedNote.toString(), returnedNote.toString());
     }
 
     @Test
@@ -270,14 +267,13 @@ public class NotesControllerIntegrationTest {
         ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.PUT, request, String.class);
 
         ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
-
         String message = error.getMessage();
 
         // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
 
-        Assertions.assertEquals(400, result.getStatusCode().value());
     }
 
     @Test
@@ -325,13 +321,11 @@ public class NotesControllerIntegrationTest {
         ResponseEntity<String> result = this.restTemplate.exchange(uri, HttpMethod.DELETE, new HttpEntity<>(""), String.class);
 
         ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
-
         String message = error.getMessage();
 
         // assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
-
-        Assertions.assertEquals(400, result.getStatusCode().value());
     }
 }
