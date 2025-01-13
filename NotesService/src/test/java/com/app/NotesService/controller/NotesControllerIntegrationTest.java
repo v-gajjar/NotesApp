@@ -103,8 +103,14 @@ public class NotesControllerIntegrationTest {
         // act
         ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
 
+        ApiError error = objectMapper.readValue(result.getBody(), ApiError.class );
+        String message = error.getMessage();
+
         // assert
-        Assertions.assertEquals(400, result.getStatusCode().value());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode().value());
+        assertEquals("Note cannot have empty content", message);
+
     }
 
     @Test
