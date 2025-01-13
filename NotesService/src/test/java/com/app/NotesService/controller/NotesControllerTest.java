@@ -91,6 +91,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertEquals("Note cannot have empty content", message);
     }
 
@@ -140,6 +141,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
         assertEquals("No entry found in database for note with id: " + id, message);
     }
 
@@ -163,6 +165,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 
@@ -212,6 +215,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
         assertEquals("Unable to delete note from database", message);
     }
 
@@ -235,6 +239,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 
@@ -291,6 +296,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.NOT_FOUND.value(), error.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
         assertEquals("Unable to update provided note", message);
     }
 
@@ -317,6 +323,7 @@ public class NotesControllerTest {
 
         String message = error.getMessage();
         assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
     }
 }
