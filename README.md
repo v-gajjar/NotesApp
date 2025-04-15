@@ -10,6 +10,17 @@ When I reach the relevant step in the challenge, the client side will be set up 
 
 I am planning to push regular updates, so feel free to follow me on here, or alternatively on LinkedIn: https://www.linkedin.com/in/vinaygajjar/.
 
+# Development Roadmap
+### Current Focus
+Add an API endpoint for fetching a list of notes belonging to the user.
+
+### Next Step: 
+Set up the front-end using Vite.
+
+### Further Steps
+See full [roadmap](https://github.com/v-gajjar/NotesApp/blob/main/ROADMAP.md)
+
+
 # MySQL Tables
 There is currently just one MySQL table, for persisting a Note entity:
 
