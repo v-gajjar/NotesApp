@@ -332,7 +332,7 @@ public class NotesControllerTest {
     }
 
     @Test
-    public void Find_NotesByExistingUserID_ReturnsAListOfNotes() throws Exception{
+    public void Find_ValidUserIdentifier_ReturnsAListOfNotes() throws Exception{
 
         // arrange
         long userId = 1001L;
