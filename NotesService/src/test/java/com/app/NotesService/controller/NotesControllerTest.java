@@ -5,6 +5,7 @@ import com.app.NotesService.exception.EmptyContentException;
 import com.app.NotesService.exception.NoteNotFoundException;
 import com.app.NotesService.model.Note;
 import com.app.NotesService.service.NotesService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -325,5 +329,39 @@ public class NotesControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST.value(), error.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
         assertTrue(message.startsWith("Incorrect data type provided for id"));
+    }
+
+    @Test
+    public void Find_NotesByExistingUserID_ReturnsAListOfNotes() throws Exception{
+
+        // arrange
+        long userId = 1001L;
+        Note firstNote = new Note(1L, "a test note", "a user owned note", userId);
+        Note secondNote = new Note(2L, "another test note", "another user owned note", userId);
+
+        List<Note> notesList = new ArrayList<Note>();
+        notesList.add(firstNote);
+        notesList.add(secondNote);
+
+        when(notesService.findNotesByUserId(any(Long.class))).thenReturn(notesList);
+
+        // act
+
+        // (please note: the url /users/{userId} is temporary in order to speed up development
+        // and the intention is to replace it with /my when adding security)
+        MvcResult result = mockMvc.perform(get("/api/notes/users/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // assert
+        String responseContent = result.getResponse().getContentAsString();
+
+        List<Note> responseList = objectMapper.readValue(responseContent, new TypeReference<List<Note>>() {});
+
+        assertThat(responseContent).isNotEmpty();
+        assertEquals(2, responseList.size());
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
 }
