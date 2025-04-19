@@ -2,9 +2,11 @@
 Add an API endpoint for fetching a list of notes belonging to the user.
 
 ### Next step: 
-Set up the front-end using Vite.
+Add a Dockerfile for the back-end
 
 ### Further steps:
+- Set up the front-end using Vite.
+
 - Pick a component library (e.g. ShadCN, DaisyUI, or Mantine UI).
 
 - Create a UI for:

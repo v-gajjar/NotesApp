@@ -14,8 +14,8 @@ I am planning to push regular updates, so feel free to follow me on here, or alt
 ### Current Focus
 Add an API endpoint for fetching a list of notes belonging to the user.
 
-### Next Step: 
-Set up the front-end using Vite.
+### Next step: 
+Add a Dockerfile for the back-end
 
 ### Further Steps
 See full [roadmap](https://github.com/v-gajjar/NotesApp/blob/main/ROADMAP.md)
