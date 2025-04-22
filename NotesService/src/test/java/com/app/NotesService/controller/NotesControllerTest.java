@@ -363,5 +363,7 @@ public class NotesControllerTest {
         assertThat(responseContent).isNotEmpty();
         assertEquals(2, responseList.size());
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        verify(notesService, times(1)).findNotesByUserId(any(Long.class));
     }
 }
