@@ -47,8 +47,8 @@ public class NotesControllerTest {
     @Test
     public void Save_NoteWithTitleAndContent_ReturnsNoteWithAddedId() throws Exception{
         // arrange
-        Note noteToCreate = new Note(null, "Sample Note", "Hello, World!");
-        Note createdNote = new Note(1L, "Sample Note", "Hello, World!");
+        Note noteToCreate = new Note(null, "Sample Note", "Hello, World!", 1001L);
+        Note createdNote = new Note(1L, "Sample Note", "Hello, World!", 1001L);
 
         when(notesService.save(any(Note.class))).thenReturn(createdNote);
 
@@ -72,7 +72,7 @@ public class NotesControllerTest {
     @Test
     public void Save_NoteWithNullContent_ThrowsError() throws Exception{
         // arrange
-        Note noteToCreate = new Note(null, "Sample Note", null);
+        Note noteToCreate = new Note(null, "Sample Note", null, 1001L);
         EmptyContentException exception = new EmptyContentException("Note cannot have empty content");
 
         when(notesService.save(any(Note.class))).thenThrow(exception);
@@ -102,7 +102,7 @@ public class NotesControllerTest {
     @Test
     public void Find_ExistingNoteID_ReturnsASingleNote() throws Exception{
         //arrange
-        Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+        Note existingNote = new Note(1L, "Sample Note", "Hello, World!", 1001L);
         String existingNoteJSON = objectMapper.writeValueAsString(existingNote);
 
         when(notesService.findNoteById(any(Long.class))).thenReturn(existingNote);
@@ -176,7 +176,7 @@ public class NotesControllerTest {
     @Test
     public void Delete_ExistingNoteID_ReturnsAString() throws Exception{
         //arrange
-        Note existingNote = new Note(1L, "Sample Note", "Hello, World!");
+        Note existingNote = new Note(1L, "Sample Note", "Hello, World!", 1001L);
 
         when(notesService.deleteNoteById(any(Long.class))).thenReturn("Note successfully deleted");
 
@@ -250,7 +250,7 @@ public class NotesControllerTest {
     @Test
     public void Update_ExistingNoteInDatabase_ReturnsUpdatedNote() throws Exception{
         // arrange
-        Note updatedNote = new Note(1L, "Updated Note", "Hello, World!");
+        Note updatedNote = new Note(1L, "Updated Note", "Hello, World!", 1001L);
 
         when(notesService.update(any(Note.class))).thenReturn(updatedNote);
 
@@ -275,7 +275,7 @@ public class NotesControllerTest {
     @Test
     public void Update_NoteNotFoundInDatabase_ThrowsError() throws Exception{
         // arrange
-        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!");
+        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!", 1001L);
         String updatedNoteJson = objectMapper.writeValueAsString(updatedNote);
 
         NoteNotFoundException exception = new
@@ -308,7 +308,7 @@ public class NotesControllerTest {
     public void Update_IDWithNonNumericalValue_ThrowsError() throws Exception {
         // arrange
         String id="abc";
-        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!");
+        Note updatedNote = new Note(32L, "Updated Note", "Hello, World!", 1001L);
         String updatedNoteJson = objectMapper.writeValueAsString(updatedNote);
 
         // act
