@@ -7,6 +7,9 @@ import com.app.NotesService.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class NotesService {
 
@@ -52,5 +55,14 @@ public class NotesService {
             );
         }
         return notesRepository.save(note);
+    }
+
+    public List<Note> findNotesByUserId(Long userId){
+        /*
+            This is a temporary stub implementation which will be replaced
+            with actual logic after writing first writing the related service unit test
+            (I'm using Test-Driven Development where possible)
+         */
+        return new ArrayList<Note>();
     }
 }
