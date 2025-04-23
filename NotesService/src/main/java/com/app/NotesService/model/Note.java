@@ -1,9 +1,6 @@
 package com.app.NotesService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Note {
@@ -14,6 +11,7 @@ public class Note {
 
     private String title;
     private String content;
+    private Long userId;
 
     public Note() {
     }
@@ -22,6 +20,13 @@ public class Note {
         this.id = id;
         this.title = title;
         this.content = content;
+    }
+
+    public Note(Long id, String title, String content, Long userId) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -48,12 +53,21 @@ public class Note {
         this.content = content;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
-        return "{" +
+        return "Note{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }
