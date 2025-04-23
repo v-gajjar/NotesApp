@@ -16,6 +16,11 @@ public class Note {
     public Note() {
     }
 
+    /*
+        Old constructor to be removed once unit tests and integration tests
+        are refactored to use the new constructor and all test methods pass
+     */
+    @Deprecated
     public Note(Long id, String title, String content) {
         this.id = id;
         this.title = title;
