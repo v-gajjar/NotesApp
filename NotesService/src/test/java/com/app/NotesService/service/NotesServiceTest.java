@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -168,5 +170,26 @@ public class NotesServiceTest {
         // assert
         verify(notesRepository, times(1)).existsById(updatedNote.getId());
         verify(notesRepository, never()).save(updatedNote);
+    }
+
+    @Test
+    public void Find_ValidUserIdentifier_ReturnsAListOfNotes() throws Exception{
+
+        Long userId = 1001L;
+
+        Note firstNote = new Note(1L, "a test note", "a user owned note", userId);
+        Note secondNote = new Note(2L, "another test note", "another user owned note", userId);
+
+        List<Note> notesList = new ArrayList<Note>();
+        notesList.add(firstNote);
+        notesList.add(secondNote);
+
+        when(notesRepository.findByUserId(userId)).thenReturn(notesList);
+
+        // act
+        List<Note> foundNotesList =  notesService.findNotesByUserId( userId );
+
+        // assert
+        verify(notesRepository, times(1)).findByUserId(userId);
     }
 }
